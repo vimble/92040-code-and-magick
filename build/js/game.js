@@ -392,12 +392,52 @@ window.Game = (function() {
     },
 
     /**
+     * myMessageWindow
+     */
+
+    _drawMessageScreen: function() {
+      var winMessage = ['You', 'have', 'won', 'my', 'friend'];
+      var failMessage = ['You', 'have', 'failed', 'looser!'];
+      var pauseMessage = ['Game', 'is', 'on', 'pause.', 'Make', 'tea!'];
+      var introMessage = ['Welcome', 'my', 'friend!', 'Press', 'Space', 'to start!'];
+
+      var messageBackground = function(x, y, color) {
+        this.ctx.beginPath();
+        this.ctx.moveTo(x, y);
+        this.ctx.lineTo(400+x, y);
+        this.ctx.lineTo(470+x, 200+y);
+        this.ctx.lineTo(x, 200+y);
+        this.ctx.lineTo(x, y);
+        this.ctx.fillStyle = color;
+        this.ctx.fill();
+        this.ctx.closePath();
+      }
+
+      var messageText = function(text, x, y) {
+        this.ctx.font = "16px PT Mono";
+        this.ctx.baseLine = "hanging";
+        this.ctx.fillStyle = "#000000";
+        this.ctx.fillText(text, x, y);
+      }
+
+      y = 16;
+      for (var i = 0; i < winMessage.length; i++) {
+        textMessage(winMessage[i], 0, y);
+        y += 16;
+      }
+
+      messageBackground(10, 10, rgba(0, 0, 0, 0.7));
+      messageBackground(0, 0, #FFFFFF);
+
+    },
+
+    /**
      * Отрисовка экрана паузы.
      */
     _drawPauseScreen: function() {
       switch (this.state.currentStatus) {
         case Verdict.WIN:
-          console.log('you have won!');
+          this._drawMessageScreen;
           break;
         case Verdict.FAIL:
           console.log('you have failed!');
